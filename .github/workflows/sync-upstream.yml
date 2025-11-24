@@ -17,15 +17,20 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Configure git user
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
       - name: Add upstream and fetch
         run: |
           git remote add upstream https://x-access-token:${{ secrets.UPSTREAM_TOKEN }}@github.com/DSWU-UMC-9th/UMC-9th-TEAM-WEB-FE.git || echo "upstream already exists"
           git fetch upstream
 
-      - name: Merge upstream/develop into fork develop
+      - name: Merge upstream/develop into fork develop (fast-forward only)
         run: |
           git checkout develop
-          git merge upstream/develop --no-edit
+          git merge --ff-only upstream/develop || echo "No fast-forward merge possible."
 
       - name: Push changes back to fork
         run: |
