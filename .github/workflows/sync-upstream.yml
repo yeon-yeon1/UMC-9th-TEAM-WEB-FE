@@ -9,7 +9,7 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     permissions:
-      contents: write 
+      contents: write
 
     steps:
       - name: Checkout fork repo
@@ -22,10 +22,11 @@ jobs:
           git remote add upstream https://x-access-token:${{ secrets.UPSTREAM_TOKEN }}@github.com/DSWU-UMC-9th/UMC-9th-TEAM-WEB-FE.git || echo "upstream already exists"
           git fetch upstream
 
-      - name: Merge upstream/develop into fork develop (fast-forward only)
+      - name: Merge upstream/develop into fork develop
         run: |
           git checkout develop
-          git merge --ff-only upstream/develop || echo "No fast-forward merge possible."
+          # 충돌 없으면 자동으로 머지 커밋 하나 만들어짐
+          git merge upstream/develop --no-edit
 
       - name: Push changes back to fork
         run: |
