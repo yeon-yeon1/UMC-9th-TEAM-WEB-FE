@@ -1,8 +1,6 @@
 name: Sync fork with upstream
 
 on:
-  schedule:
-    - cron: '*/5 * * * *'
   workflow_dispatch:
 
 jobs:
@@ -27,10 +25,10 @@ jobs:
           git remote add upstream https://x-access-token:${{ secrets.UPSTREAM_TOKEN }}@github.com/DSWU-UMC-9th/UMC-9th-TEAM-WEB-FE.git || echo "upstream already exists"
           git fetch upstream
 
-      - name: Merge upstream/develop into fork develop (fast-forward only)
+      - name: Merge upstream/develop into fork develop 
         run: |
           git checkout develop
-          git merge --ff-only upstream/develop || echo "No fast-forward merge possible."
+          git merge upstream/develop --no-edit || echo "Already up to date."
 
       - name: Push changes back to fork
         run: |
