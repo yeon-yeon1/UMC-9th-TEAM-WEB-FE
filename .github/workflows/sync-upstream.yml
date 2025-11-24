@@ -25,7 +25,6 @@ jobs:
       - name: Merge upstream/develop into fork develop
         run: |
           git checkout develop
-          # 충돌 없으면 자동으로 머지 커밋 하나 만들어짐
           git merge upstream/develop --no-edit
 
       - name: Push changes back to fork
